@@ -1,39 +1,39 @@
 # `sql_test.sql`
 
-This SQL script is designed to set up a test database environment for a bookstore application. It handles the creation of the database, defines the schema for customers, books, and orders, and populates the tables with sample data for testing and development purposes. It also includes example queries for common data retrieval operations.
+This SQL script is designed to set up a test database environment for a bookstore application. It handles the creation of the database, defines the schema for customers, books, and orders, and populates the tables with sample data for testing and development purposes. It also includes example queries for common data retrieval tasks.
 
-## Execution Flow
+## Script Behavior
 
 The script executes in a series of sequential steps:
 
-1.  **Database Creation:** It first creates a database named `BookstoreDB` if one does not already exist, and then selects it for use with the `USE BookstoreDB;` command.
-2.  **Table Cleanup:** To ensure a clean slate on every run, the script drops the `OrderItems`, `Orders`, `Books`, and `Customers` tables if they exist. The tables are dropped in reverse order of their dependency to avoid foreign key constraint errors.
-3.  **Schema Definition:** It creates the four primary tables (`Customers`, `Books`, `Orders`, `OrderItems`) with their respective columns, data types, constraints, and relationships.
-4.  **Data Seeding:** Sample data is inserted into the `Customers`, `Books`, `Orders`, and `OrderItems` tables to simulate a live environment.
-5.  **Example Queries:** The script concludes with a set of `SELECT` statements that serve as examples for querying the database.
+1.  **Database Creation:** It first creates a database named `BookstoreDB` if one does not already exist. It then sets `BookstoreDB` as the active database for subsequent commands using `USE BookstoreDB;`.
+2.  **Table Cleanup:** To ensure a clean, idempotent run, the script drops the `OrderItems`, `Orders`, `Books`, and `Customers` tables if they already exist. The drop order is important to respect foreign key constraints.
+3.  **Schema Definition:** It creates the four main tables for the bookstore application: `Customers`, `Books`, `Orders`, and `OrderItems`. It defines columns, data types, primary keys, foreign keys, and other constraints.
+4.  **Data Seeding:** The script inserts sample records into the `Customers`, `Books`, `Orders`, and `OrderItems` tables to provide a baseline dataset.
+5.  **Example Queries:** The script concludes with two `SELECT` statements that serve as examples for querying the populated database.
 
 ## Schema Definition
 
-The script defines the following tables:
+The script creates the following tables:
 
 ### `Customers`
 
 Stores information about individual customers.
 
 | Column | Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
+| --- | --- | --- | --- |
 | `CustomerID` | `INT` | `AUTO_INCREMENT`, `PRIMARY KEY` | Unique identifier for each customer. |
 | `FirstName` | `VARCHAR(50)` | `NOT NULL` | The customer's first name. |
 | `LastName` | `VARCHAR(50)` | `NOT NULL` | The customer's last name. |
 | `Email` | `VARCHAR(100)` | `UNIQUE`, `NOT NULL` | The customer's unique email address. |
-| `JoinedDate` | `DATE` | `DEFAULT (CURRENT_DATE)` | The date the customer registered, defaults to the current date. |
+| `JoinedDate` | `DATE` | `DEFAULT (CURRENT_DATE)` | The date the customer registered. Defaults to the current date. |
 
 ### `Books`
 
 Stores information about the books available for sale.
 
 | Column | Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
+| --- | --- | --- | --- |
 | `BookID` | `INT` | `AUTO_INCREMENT`, `PRIMARY KEY` | Unique identifier for each book. |
 | `Title` | `VARCHAR(150)` | `NOT NULL` | The title of the book. |
 | `Author` | `VARCHAR(100)` | `NOT NULL` | The author of the book. |
@@ -45,43 +45,42 @@ Stores information about the books available for sale.
 Stores header information for customer orders.
 
 | Column | Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
+| --- | --- | --- | --- |
 | `OrderID` | `INT` | `AUTO_INCREMENT`, `PRIMARY KEY` | Unique identifier for each order. |
-| `CustomerID` | `INT` | `NOT NULL`, `FOREIGN KEY` | References `Customers(CustomerID)`. If a customer is deleted, their orders are also deleted (`ON DELETE CASCADE`). |
+| `CustomerID` | `INT` | `NOT NULL` | Foreign key referencing `Customers.CustomerID`. |
 | `OrderDate` | `DATETIME` | `DEFAULT CURRENT_TIMESTAMP` | The timestamp when the order was placed. |
 | `TotalAmount` | `DECIMAL(10, 2)` | `NOT NULL` | The total cost of the order. |
 
+**Foreign Keys:**
+*   `FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID) ON DELETE CASCADE`: If a customer is deleted, all of their associated orders will also be deleted.
+
 ### `OrderItems`
 
-Stores line item details for each order.
+Stores line item details for each order, linking orders to books.
 
 | Column | Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `OrderItemID` | `INT` | `AUTO_INCREMENT`, `PRIMARY KEY` | Unique identifier for each line item in an order. |
-| `OrderID` | `INT` | `NOT NULL`, `FOREIGN KEY` | References `Orders(OrderID)`. If an order is deleted, its line items are also deleted (`ON DELETE CASCADE`). |
-| `BookID` | `INT` | `NOT NULL`, `FOREIGN KEY` | References `Books(BookID)`. |
+| --- | --- | --- | --- |
+| `OrderItemID` | `INT` | `AUTO_INCREMENT`, `PRIMARY KEY` | Unique identifier for each line item. |
+| `OrderID` | `INT` | `NOT NULL` | Foreign key referencing `Orders.OrderID`. |
+| `BookID` | `INT` | `NOT NULL` | Foreign key referencing `Books.BookID`. |
 | `Quantity` | `INT` | `NOT NULL`, `CHECK (Quantity > 0)` | The number of units of a specific book in the order. Must be greater than zero. |
 | `Subtotal` | `DECIMAL(10, 2)` | `NOT NULL` | The total price for this line item (`Price` * `Quantity`). |
 
-## Sample Data
-
-The script inserts the following initial data:
-
-*   **Customers:** Three sample customers ('Alice Johnson', 'Bob Smith', 'Charlie Brown').
-*   **Books:** Three sample books ('The Pragmatic Programmer', 'Clean Code', 'Designing Data-Intensive Applications').
-*   **Orders & OrderItems:** A single order is created for customer 'Alice Johnson' (`CustomerID: 1`) for one copy of 'Clean Code' (`BookID: 2`).
+**Foreign Keys:**
+*   `FOREIGN KEY (OrderID) REFERENCES Orders(OrderID) ON DELETE CASCADE`: If an order is deleted, all of its associated line items will also be deleted.
+*   `FOREIGN KEY (BookID) REFERENCES Books(BookID)`: Links the line item to a specific book.
 
 ## Example Queries
 
-The file includes two example queries to demonstrate data retrieval:
+The script includes the following sample queries:
 
-1.  **View All Available Books:**
+*   **View all available books:**
     ```sql
     SELECT Title, Author, Price, StockQuantity FROM Books;
     ```
     This query retrieves the title, author, price, and stock quantity for every book in the `Books` table.
 
-2.  **Find Order Details with Customer Names:**
+*   **Find order details with customer names:**
     ```sql
     SELECT
         o.OrderID,
@@ -91,4 +90,4 @@ The file includes two example queries to demonstrate data retrieval:
     FROM Orders o
     JOIN Customers c ON o.CustomerID = c.CustomerID;
     ```
-    This query uses an `INNER JOIN` to combine data from the `Orders` and `Customers` tables, showing the order ID, the customer's full name, the total amount, and the date for each order.
+    This query performs an `INNER JOIN` between the `Orders` and `Customers` tables to produce a result set that includes the order ID, the customer's full name, the total amount, and the date of the order.
