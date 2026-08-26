@@ -1,30 +1,47 @@
-# `pearl_test.pl`
+# pearl_test.pl
 
-This document outlines the functionality of the `pearl_test.pl` script.
+This document provides technical documentation for the `pearl_test.pl` script. 
 
-## Purpose
+The script is a simple, procedural Perl program designed to demonstrate basic interactive input/output (I/O), conditional logic, and loop control.
 
-This script serves as a basic demonstration of Perl syntax and interactive command-line behavior. It is not part of a larger ETL process but rather a standalone example.
+## Overview
 
-The script performs the following actions in sequence:
-1.  Prints a static "Hello, World!" message.
-2.  Prompts the user to enter their name and reads the input from standard input.
-3.  Prints a personalized greeting based on the user's input.
-4.  Executes a simple `foreach` loop, printing a count from 1 to 3.
+The script runs sequentially from top to bottom. It enforces strict variable declarations and warnings to ensure code quality and safety.
 
-## Public Functions/Procedures
+### Environment Requirements
+* **Interpreter:** Perl (configured via `#!/usr/bin/env perl`)
+* **Pragmas Enabled:**
+  * `use strict;` — Restricts unsafe constructs (forces variable declaration).
+  * `use warnings;` — Enables detailed compile-time and run-time warnings.
 
-This script does not define any public functions or procedures. It consists of a single, top-level sequence of executable statements.
+---
 
-## Execution Behavior
+## Code Structure & Entities
 
-When executed from the command line, the script will:
+* **Classes/Objects:** None
+* **Functions/Procedures:** None (procedural execution flow)
 
-1.  Immediately print the line `Hello, World!` to standard output.
-2.  Print the prompt `Please enter your name: ` without a trailing newline.
-3.  Wait for the user to provide input via `STDIN` and press Enter. The input is stored in the `$name` variable. The `chomp` function is used to remove the trailing newline character from the input.
-4.  Evaluate the `$name` variable:
-    *   If the user provided no input (i.e., `$name` is an empty string `""`), the script prints `Hello, stranger!`.
-    *   Otherwise, it prints `Nice to meet you, $name!`, where `$name` is the value provided by the user.
-5.  Print a blank line, followed by the line `Counting to 3:`.
-6.  Iterate through the numbers 1, 2, and 3, printing `Count: 1`, `Count: 2`, and `Count: 3` on successive lines.
+---
+
+## Execution Flow and Behavior
+
+The script executes the following steps in order:
+
+1. **Welcome Message**
+   Prints the string `"Hello, World!\n"` to standard output.
+
+2. **User Input Collection**
+   * Prompts the user with `"Please enter your name: "`.
+   * Reads a line of input from standard input (`<STDIN>`) and assigns it to the scalar variable `$name`.
+   * Calls `chomp($name)` to remove any trailing newline character from the input.
+
+3. **Conditional Greeting**
+   * **If the input is empty** (`$name eq ""`):
+     Prints `"Hello, stranger!\n"`.
+   * **Otherwise** (if the user entered a name):
+     Prints `"Nice to meet you, [name]!\n"`, interpolating the value of `$name`.
+
+4. **Loop Demonstration**
+   * Prints a header: `"\nCounting to 3:\n"`.
+   * Executes a `foreach` loop iterating through the range `1..3`.
+   * For each iteration, it prints `"Count: $i\n"`, where `$i` is the current loop index (1, 2, and 3).

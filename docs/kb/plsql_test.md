@@ -1,52 +1,49 @@
-# `plsql_test.pkb`
+# plsql_test.pkb
 
-This file provides the implementation (body) for the `pkg_github_demo` PL/SQL package.
+The `plsql_test.pkb` file implements the package body for `pkg_github_demo`. This package provides basic utility subprograms to print a welcome message and retrieve a static repository status.
 
----
-
-## Public Functions/Procedures
-
-### `print_welcome`
-
-This procedure prints a welcome message to the DBMS output stream.
-
-**Signature**
-```plsql
-PROCEDURE print_welcome (p_user_name IN VARCHAR2)
-```
-
-**Parameters**
-
-| Name | Type | Description |
-|---|---|---|
-| `p_user_name` | `IN VARCHAR2` | The name of the user to include in the welcome message. |
-
-**Behavior**
-
-*   The procedure constructs a welcome message string: `'Welcome to GitHub, '`.
-*   It appends the value of `p_user_name`.
-*   If `p_user_name` is `NULL`, it uses the default value `'Developer'` in its place, as handled by the `NVL` function.
-*   The resulting string is printed using `DBMS_OUTPUT.PUT_LINE`.
+## Package Information
+* **Package Body Name:** `pkg_github_demo`
+* **Language:** PL/SQL (Oracle)
 
 ---
 
-### `get_repo_status`
+## Subprograms
 
-This function returns a static string indicating the repository status.
+### `print_welcome` (Procedure)
 
-**Signature**
-```plsql
-FUNCTION get_repo_status RETURN VARCHAR2
+This procedure prints a welcome message to the standard DBMS output.
+
+#### Syntax
+```sql
+PROCEDURE print_welcome (p_user_name IN VARCHAR2);
 ```
 
-**Parameters**
+#### Parameters
+| Parameter Name | Mode | Data Type | Description |
+| :--- | :--- | :--- | :--- |
+| `p_user_name` | `IN` | `VARCHAR2` | The name of the user to welcome. |
 
-This function does not accept any parameters.
+#### Behavior and Implementation Details
+* The procedure uses `DBMS_OUTPUT.PUT_LINE` to output the welcome message.
+* It evaluates the input parameter `p_user_name` using the `NVL` function. If `p_user_name` is `NULL`, it defaults to `'Developer'`.
+* **Output Format:** `Welcome to GitHub, <p_user_name or 'Developer'>!`
 
-**Returns**
+---
 
-*   `VARCHAR2`: A string describing the repository status.
+### `get_repo_status` (Function)
 
-**Behavior**
+This function returns a status message indicating the current state of the repository.
 
-*   The function always returns the hardcoded string literal `'Repository is active, and code is ready for commits.'`.
+#### Syntax
+```sql
+FUNCTION get_repo_status RETURN VARCHAR2;
+```
+
+#### Return Value
+* **Data Type:** `VARCHAR2`
+* **Returned Value:** `'Repository is active, and code is ready for commits.'`
+
+#### Behavior and Implementation Details
+* The function does not accept any parameters.
+* It returns a hardcoded string indicating that the repository is active and ready.

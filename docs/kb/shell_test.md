@@ -1,53 +1,46 @@
-# `shell_test.sh`
+# shell_test.sh
+
+This Bash script performs a system utility check consisting of a root partition disk space verification and a simulated backup of text files from a specified target directory.
 
 ## Overview
 
-This shell script performs two main system utility tasks: it checks the disk space usage of the root filesystem and simulates a backup process for text files in a specified directory. The script provides color-coded console output to indicate status, warnings, and errors.
+The script is configured to exit immediately if any command fails (`set -e`). It utilizes ANSI color codes (`GREEN`, `YELLOW`, `RED`, and `NC`) to format console output for readability.
 
 ## Usage
 
-The script can be executed with an optional command-line argument to specify the target directory.
-
-```shell
+```bash
 ./shell_test.sh [target_directory]
 ```
 
-## Parameters
+### Parameters
 
-| Parameter | Type | Description | Default |
-| :--- | :--- | :--- | :--- |
-| `[target_directory]` | String | The absolute or relative path to the directory for the backup simulation. The script will look for `.txt` files within this directory. | `$HOME/Documents` |
+| Parameter | Position | Type | Description | Default Value |
+| :--- | :--- | :--- | :--- | :--- |
+| `target_directory` | `$1` | String | The path to the directory containing `.txt` files to be backed up. | `$HOME/Documents` |
 
-This is a positional parameter (`$1`). If it is not provided, the script defaults to using the current user's `Documents` directory.
+---
 
-## Behavior
+## Execution Flow and Behavior
 
-The script executes the following steps in order:
+### 1. Directory Verification
+The script checks if the resolved `TARGET_DIR` exists as a directory:
+* If the directory **does not exist**, it prints an error message in red and exits with status `1`.
+* If the directory **exists**, execution continues.
 
-1.  **Initialization**:
-    *   Sets the `-e` option, which causes the script to exit immediately if any command fails.
-    *   Defines shell variables for `GREEN`, `YELLOW`, `RED`, and `NC` (No Color) to format console output.
-    *   Assigns the `TARGET_DIR` variable. It uses the first positional argument (`$1`) if provided; otherwise, it defaults to `$HOME/Documents`.
+### 2. Disk Space Check
+The script evaluates the disk usage of the root file system (`/`):
+* It extracts the usage percentage using `df -h /`, `awk`, and `sed`.
+* If the root partition disk usage is strictly greater than **85%**, it prints a critical warning in red: `Warning: Disk usage is critically high!`.
+* Otherwise, it prints a success message in green: `Disk usage is within safe limits.`.
 
-2.  **Directory Validation**:
-    *   It verifies that the `TARGET_DIR` exists using `if [ ! -d "$TARGET_DIR" ]`.
-    *   If the directory does not exist, the script prints a red error message and exits with a status code of `1`.
+### 3. Simulated Backup Process
+The script simulates backing up text files within the `TARGET_DIR`:
+* It iterates over all files matching the glob pattern `"$TARGET_DIR"/*.txt`.
+* For each matching file, it verifies the file's existence (to handle cases where the glob pattern does not match any files).
+* If files are found, it prints `Backing up: <filename>...` for each file and increments the `FILE_COUNT` tracker.
+* **Outcome**:
+  * If no `.txt` files are found, it prints: `No .txt files found to back up in <TARGET_DIR>.`
+  * If `.txt` files are processed, it prints a success message in green indicating the total number of files processed.
 
-3.  **Disk Usage Check**:
-    *   The script checks the disk usage of the root filesystem (`/`).
-    *   It uses `df -h / | awk 'NR==2 {print $5}' | sed 's/%//'` to extract the usage percentage as an integer.
-    *   It prints the current usage percentage.
-    *   If the usage is greater than 85%, it prints a "critically high" warning in red.
-    *   Otherwise, it prints a confirmation that usage is within safe limits in green.
-
-4.  **Backup Simulation**:
-    *   The script announces the start of the backup simulation.
-    *   It iterates through all files matching the pattern `"$TARGET_DIR"/*.txt`.
-    *   For each potential match, it first confirms the file exists with `if [ -e "$file" ]`. This correctly handles the case where no `.txt` files are found.
-    *   For each existing `.txt` file, it prints a "Backing up..." message with the file's base name and increments a `FILE_COUNT` counter.
-
-5.  **Completion Summary**:
-    *   After the loop, it checks the value of `FILE_COUNT`.
-    *   If `FILE_COUNT` is `0`, it reports that no `.txt` files were found in the target directory.
-    *   If one or more files were processed, it prints a green success message indicating the total number of files.
-    *   Finally, it prints a "Script Completed Successfully" message and exits.
+### 4. Completion
+Upon successful execution of all steps, the script prints a completion message in yellow and exits with status `0`.
