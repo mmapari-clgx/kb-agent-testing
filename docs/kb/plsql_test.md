@@ -1,47 +1,52 @@
 # `plsql_test.pkb`
 
-This file contains the package body for `pkg_github_demo`. It implements the procedures and functions declared in the corresponding package specification.
+This file provides the implementation (body) for the `pkg_github_demo` PL/SQL package.
 
 ---
 
-## Public Procedures and Functions
+## Public Functions/Procedures
 
 ### `print_welcome`
 
-A procedure that prints a welcome message to the standard output.
+This procedure prints a welcome message to the DBMS output stream.
 
+**Signature**
 ```plsql
 PROCEDURE print_welcome (p_user_name IN VARCHAR2)
 ```
 
-**Behavior:**
+**Parameters**
 
-*   Uses `DBMS_OUTPUT.PUT_LINE` to display a welcome message.
-*   If the `p_user_name` parameter is `NULL`, the procedure uses the default name 'Developer' in its place, as handled by the `NVL` function.
+| Name | Type | Description |
+|---|---|---|
+| `p_user_name` | `IN VARCHAR2` | The name of the user to include in the welcome message. |
 
-**Parameters:**
+**Behavior**
 
-| Name          | Type      | Description                  |
-| :------------ | :-------- | :--------------------------- |
-| `p_user_name` | `VARCHAR2` | The name of the user to welcome. |
+*   The procedure constructs a welcome message string: `'Welcome to GitHub, '`.
+*   It appends the value of `p_user_name`.
+*   If `p_user_name` is `NULL`, it uses the default value `'Developer'` in its place, as handled by the `NVL` function.
+*   The resulting string is printed using `DBMS_OUTPUT.PUT_LINE`.
 
 ---
 
 ### `get_repo_status`
 
-A function that returns a static string indicating the repository's status.
+This function returns a static string indicating the repository status.
 
+**Signature**
 ```plsql
 FUNCTION get_repo_status RETURN VARCHAR2
 ```
 
-**Behavior:**
+**Parameters**
 
-*   This function takes no parameters.
-*   It always returns the string literal `'Repository is active, and code is ready for commits.'`.
+This function does not accept any parameters.
 
-**Returns:**
+**Returns**
 
-| Type       | Description                               |
-| :--------- | :---------------------------------------- |
-| `VARCHAR2` | A hardcoded string describing repo status. |
+*   `VARCHAR2`: A string describing the repository status.
+
+**Behavior**
+
+*   The function always returns the hardcoded string literal `'Repository is active, and code is ready for commits.'`.

@@ -1,16 +1,23 @@
 # `python_test.py`
 
-This script generates a PDF document (`multi_language_samples.pdf`) that serves as a multi-language code reference guide. The content, including code snippets for Python, SQL, Perl, and Shell Script, is hardcoded within an HTML string in the script.
+## File Purpose
 
-The script first writes this HTML content to an intermediate file, `multi_language_samples.html`. It then uses the `weasyprint` library to convert the HTML file into the final PDF.
+This script generates a multi-page PDF document (`multi_language_samples.pdf`) containing formatted code snippets for Python, SQL, Perl, and Shell Script. It first defines the content and styling for the document within an HTML string, writes this string to an HTML file, and then uses the `weasyprint` library to convert the HTML file into a PDF.
 
-## Script Behavior
+## Behavior
 
-When executed, the script performs the following actions:
-1.  Defines a multi-line string `html_content` containing a styled HTML5 document. This document includes formatted code samples for Python, SQL, Perl, and Shell Script.
-2.  Writes the content of `html_content` to a new file named `multi_language_samples.html` in the current working directory.
-3.  Uses the `weasyprint.HTML` class to read and parse `multi_language_samples.html`.
-4.  Calls the `write_pdf` method to render the parsed HTML into a PDF file named `multi_language_samples.pdf` in the current working directory.
-5.  Prints the message "PDF generated successfully." to standard output upon successful completion.
+Upon execution, the script performs the following actions:
+1.  Prints `"Hello World"` to standard output.
+2.  Defines a multi-line string `html_content` which contains the complete HTML and CSS for a "Multi-Language Scripting Reference" document. The document is styled and includes sample code for:
+    *   Python: A script for file I/O and JSON parsing.
+    *   SQL: A query using window functions and aggregations.
+    *   Perl: A script for parsing log files with regular expressions.
+    *   Shell Script: A Bash script for creating and rotating backups.
+3.  Writes the content of the `html_content` variable to a new file named `multi_language_samples.html` in the current directory.
+4.  Uses the `weasyprint` library to read `multi_language_samples.html` and render it as a PDF.
+5.  Saves the resulting PDF as `multi_language_samples.pdf` in the current directory.
+6.  Prints `"PDF generated successfully."` to standard output upon successful completion.
 
-This script has an external dependency on the `weasyprint` library.
+## Public Interface
+
+This file is a standalone script and does not expose any public functions or classes for import.
