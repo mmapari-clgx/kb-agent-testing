@@ -22,6 +22,7 @@ CREATE TABLE github_projects (
 INSERT INTO github_projects (project_name, language) VALUES ('Sample Perl Script', 'Perl');
 INSERT INTO github_projects (project_name, language) VALUES ('Sample Shell Script', 'Bash');
 INSERT INTO github_projects (project_name, language) VALUES ('Sample Oracle Script', 'SQL');
+INSERT INTO github_projects(project_name, language) VALUES ('Sample PLSQL Script', 'SQL');
 
 -- Commit the transaction
 COMMIT;
