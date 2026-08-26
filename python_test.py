@@ -8,6 +8,8 @@
 import os
 from weasyprint import HTML
 
+print("Hello World")
+
 html_content = """
 <!DOCTYPE html>
 <html>
