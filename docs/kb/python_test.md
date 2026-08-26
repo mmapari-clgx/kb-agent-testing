@@ -1,23 +1,43 @@
-# `python_test.py`
+# python_test.py
 
-## File Purpose
+This script generates a multi-language programming reference guide in both HTML and PDF formats. It embeds code snippets for Python, SQL, Perl, and Shell Scripting into an HTML template and compiles it into a styled PDF document using the `weasyprint` library.
 
-This script generates a multi-page PDF document (`multi_language_samples.pdf`) containing formatted code snippets for Python, SQL, Perl, and Shell Script. It first defines the content and styling for the document within an HTML string, writes this string to an HTML file, and then uses the `weasyprint` library to convert the HTML file into a PDF.
+## Dependencies
 
-## Behavior
+The script relies on the following libraries:
+* `os` (standard library)
+* `weasyprint` (specifically the `HTML` class for PDF generation)
 
-Upon execution, the script performs the following actions:
-1.  Prints `"Hello World"` to standard output.
-2.  Defines a multi-line string `html_content` which contains the complete HTML and CSS for a "Multi-Language Scripting Reference" document. The document is styled and includes sample code for:
-    *   Python: A script for file I/O and JSON parsing.
-    *   SQL: A query using window functions and aggregations.
-    *   Perl: A script for parsing log files with regular expressions.
-    *   Shell Script: A Bash script for creating and rotating backups.
-3.  Writes the content of the `html_content` variable to a new file named `multi_language_samples.html` in the current directory.
-4.  Uses the `weasyprint` library to read `multi_language_samples.html` and render it as a PDF.
-5.  Saves the resulting PDF as `multi_language_samples.pdf` in the current directory.
-6.  Prints `"PDF generated successfully."` to standard output upon successful completion.
+## Execution Flow and Behavior
 
-## Public Interface
+When executed, the script performs the following steps:
 
-This file is a standalone script and does not expose any public functions or classes for import.
+1. **Console Initialization**:
+   Prints initialization messages to the console:
+   ```text
+   Hello World
+   Getting start with KB Agent
+   ```
+
+2. **HTML Content Definition**:
+   Defines a structured HTML document (`html_content`) containing:
+   * Embedded CSS styling for print layout (A4 size, margins, page numbering, and syntax highlighting colors).
+   * **Python Sample**: A script demonstrating JSON parsing, file I/O, and error handling.
+   * **SQL Sample**: A query demonstrating window functions (`SUM() OVER`, `RANK() OVER`), filtering, and sorting.
+   * **Perl Sample**: A script demonstrating regular expression matching for IPv4 addresses in log files.
+   * **Shell Script Sample**: A Bash script demonstrating automated directory backup, tar archiving, and log rotation.
+
+3. **File Generation**:
+   * **HTML Output**: Writes the HTML content to a local file named `multi_language_samples.html` using UTF-8 encoding.
+   * **PDF Compilation**: Uses `weasyprint.HTML` to read `multi_language_samples.html` and render it to a PDF file named `multi_language_samples.pdf`.
+
+4. **Completion Message**:
+   Prints a success message to the console:
+   ```text
+   PDF generated successfully.
+   ```
+
+## Generated Artifacts
+
+* **`multi_language_samples.html`**: The raw HTML document containing the styled reference guide.
+* **`multi_language_samples.pdf`**: The compiled, print-ready PDF document formatted to A4 specifications.
