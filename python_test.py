@@ -10,6 +10,8 @@ from weasyprint import HTML
 
 print("Hello World")
 
+print("Getting start with KB Agent")
+
 html_content = """
 <!DOCTYPE html>
 <html>
