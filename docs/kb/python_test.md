@@ -1,65 +1,43 @@
 # python_test.py
 
-This Python script generates a styled, multi-language programming reference guide in both HTML and PDF formats. It embeds code snippets for Python, SQL, Perl, and Shell Scripting into an HTML template and compiles it into a print-ready PDF using the `weasyprint` library.
+This script generates a multi-language programming reference guide containing code snippets for Python, SQL, Perl, and Shell Script. It outputs the guide as both an HTML file and a compiled PDF document.
 
 ## Overview
 
-The script performs the following high-level tasks:
-1. Prints initialization messages to the console.
-2. Defines a complete HTML document string containing CSS styling (optimized for A4 page layout) and syntax-highlighted code snippets.
-3. Writes the HTML content to a local file named `multi_language_samples.html`.
-4. Compiles the HTML file into a PDF document named `multi_language_samples.pdf` using WeasyPrint.
+The script does not define any classes or functions. Instead, it runs a linear execution flow to write an HTML template to disk and compile it into a PDF using the `weasyprint` library.
 
 ## Dependencies
 
-The script relies on the following libraries:
-* **`weasyprint`**: Used to render the HTML file into a PDF (`weasyprint.HTML`).
-* **`os`**: Imported, but not explicitly used in the file generation logic.
+- **`weasyprint`**: Used to compile the generated HTML file into a PDF.
+- **`os`**: Imported, but not explicitly used in the provided code.
 
-## Generated Output Files
+## Execution Flow and Behavior
 
-The script writes two files to the working directory:
+When executed, the script performs the following steps:
 
-| File Name | Format | Description |
-| :--- | :--- | :--- |
-| `multi_language_samples.html` | HTML | The raw HTML document containing the embedded CSS and code snippets. |
-| `multi_language_samples.pdf` | PDF | The compiled PDF document, styled for A4 paper with custom page margins and footers. |
+1. **Console Initialization**: Prints startup messages to the console:
+   ```
+   Hello World
+   Getting start with KB Agent
+   ```
 
----
+2. **HTML Content Definition**: Defines a multi-line HTML string (`html_content`) containing embedded CSS styling and syntax-highlighted code blocks for four languages:
+   - **Python**: A sample script demonstrating file I/O, error handling, and JSON parsing.
+   - **SQL**: A query demonstrating aggregations, window functions (`SUM() OVER`, `RANK() OVER`), and filtering.
+   - **Perl**: A log-parsing script using regular expressions to count IP addresses.
+   - **Shell Script**: A Bash script demonstrating automated backup creation and log rotation.
 
-## Documented Code Snippets
+3. **HTML File Generation**: Writes the HTML content to a local file named `multi_language_samples.html` using UTF-8 encoding.
 
-The generated reference guide contains four distinct code examples:
+4. **PDF Compilation**: Uses `weasyprint.HTML` to read `multi_language_samples.html` and render it to a PDF file named `multi_language_samples.pdf`.
 
-### 1. Python Sample (`.py`)
-Demonstrates basic file I/O, error handling (`try-except` blocks for `FileNotFoundError` and `json.JSONDecodeError`), and JSON parsing using the standard `json` library.
+5. **Completion Message**: Prints a success message to the console:
+   ```
+   PDF generated successfully.
+   ```
 
-### 2. SQL Sample (`.sql`)
-Demonstrates a relational database query utilizing:
-* Window functions (`SUM() OVER` and `RANK() OVER` partitioned by department).
-* Filtering (`WHERE` clause with date and status checks).
-* Sorting (`ORDER BY`).
+## Output Files
 
-### 3. Perl Sample (`.pl`)
-Demonstrates text processing and regular expressions:
-* Opens and reads an Apache-style access log (`access.log`).
-* Uses a regular expression to match and extract IPv4 addresses.
-* Counts occurrences of each IP address using a hash map and prints the sorted results.
-
-### 4. Shell Script Sample (`.sh`)
-A Bash script demonstrating automated backup operations:
-* Uses strict error handling (`set -euo pipefail`).
-* Creates a timestamped tarball archive of a source directory.
-* Cleans up backup archives older than 7 days using the `find` command.
-
----
-
-## Execution Flow
-
-When executed, the script runs sequentially:
-
-1. Prints `"Hello World"` to the standard output.
-2. Prints `"Getting start with KB Agent"` to the standard output.
-3. Opens `multi_language_samples.html` in write mode with `utf-8` encoding and writes the HTML markup.
-4. Invokes `HTML(filename="multi_language_samples.html").write_pdf("multi_language_samples.pdf")` to generate the PDF.
-5. Prints `"PDF generated successfully."` to the standard output upon completion.
+The script produces two files in the working directory:
+- `multi_language_samples.html`: The raw HTML document containing the styled reference guide.
+- `multi_language_samples.pdf`: The print-ready PDF compiled from the HTML document.

@@ -1,47 +1,68 @@
 # pearl_test.pl
 
-This document provides technical documentation for the `pearl_test.pl` script. 
-
-The script is a simple, procedural Perl program designed to demonstrate basic interactive input/output (I/O), conditional logic, and loop control.
+This document provides an overview of the `pearl_test.pl` script, detailing its purpose, execution flow, and behavior.
 
 ## Overview
 
-The script runs sequentially from top to bottom. It enforces strict variable declarations and warnings to ensure code quality and safety.
+`pearl_test.pl` is a simple, interactive Perl script designed to demonstrate basic input/output operations, string sanitization, conditional logic, and loop structures. It does not define any custom classes, objects, or functions.
 
-### Environment Requirements
-* **Interpreter:** Perl (configured via `#!/usr/bin/env perl`)
-* **Pragmas Enabled:**
-  * `use strict;` — Restricts unsafe constructs (forces variable declaration).
-  * `use warnings;` — Enables detailed compile-time and run-time warnings.
+## Execution and Dependencies
+
+The script is executed using a standard Perl interpreter. It enforces strict coding standards and warnings:
+
+```perl
+use strict;
+use warnings;
+```
+
+### Inputs
+* **Standard Input (`STDIN`)**: The script prompts the user to enter their name interactively during execution.
+
+### Outputs
+* **Standard Output (`STDOUT`)**: The script prints greeting messages, prompts, and a sequential count to the console.
 
 ---
 
-## Code Structure & Entities
+## Behavior and Logic Flow
 
-* **Classes/Objects:** None
-* **Functions/Procedures:** None (procedural execution flow)
+The script executes sequentially from top to bottom through the following steps:
+
+### 1. Welcome Message
+The script prints an initial greeting to the console:
+```
+Hello, World!
+```
+
+### 2. User Input and Sanitization
+The script prompts the user for their name and reads the input from standard input (`STDIN`). It then uses `chomp` to remove any trailing newline character from the input:
+```perl
+print "Please enter your name: ";
+my $name = <STDIN>;
+chomp($name);
+```
+
+### 3. Conditional Greeting
+The script evaluates the sanitized input:
+* **If the input is empty** (`$name eq ""`), it prints:
+  ```
+  Hello, stranger!
+  ```
+* **If the input is not empty**, it prints a personalized greeting:
+  ```
+  Nice to meet you, <name>!
+  ```
+
+### 4. Loop Demonstration
+Finally, the script prints a header and executes a `foreach` loop to count from 1 to 3, printing each iteration:
+```
+Counting to 3:
+Count: 1
+Count: 2
+Count: 3
+```
 
 ---
 
-## Execution Flow and Behavior
+## Functions and Procedures
 
-The script executes the following steps in order:
-
-1. **Welcome Message**
-   Prints the string `"Hello, World!\n"` to standard output.
-
-2. **User Input Collection**
-   * Prompts the user with `"Please enter your name: "`.
-   * Reads a line of input from standard input (`<STDIN>`) and assigns it to the scalar variable `$name`.
-   * Calls `chomp($name)` to remove any trailing newline character from the input.
-
-3. **Conditional Greeting**
-   * **If the input is empty** (`$name eq ""`):
-     Prints `"Hello, stranger!\n"`.
-   * **Otherwise** (if the user entered a name):
-     Prints `"Nice to meet you, [name]!\n"`, interpolating the value of `$name`.
-
-4. **Loop Demonstration**
-   * Prints a header: `"\nCounting to 3:\n"`.
-   * Executes a `foreach` loop iterating through the range `1..3`.
-   * For each iteration, it prints `"Count: $i\n"`, where `$i` is the current loop index (1, 2, and 3).
+There are no user-defined functions, subroutines, or procedures in this script. All logic is executed inline.
