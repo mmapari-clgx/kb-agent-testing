@@ -54,6 +54,7 @@ INSERT INTO Customers (FirstName, LastName, Email) VALUES
 INSERT INTO Books (Title, Author, Price, StockQuantity) VALUES 
 ('The Pragmatic Programmer', 'Andrew Hunt', 45.99, 12),
 ('Clean Code', 'Robert C. Martin', 37.50, 8),
+('AI Application Programmer', 'Mayur', 50, 8),
 ('Designing Data-Intensive Applications', 'Martin Kleppmann', 50.00, 5);
 
 -- Simulate an order for Alice (CustomerID: 1) buying 1 copy of "Clean Code"
