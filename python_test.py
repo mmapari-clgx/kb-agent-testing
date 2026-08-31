@@ -8,7 +8,7 @@
 import os
 from weasyprint import HTML
 
-print("Hello World")
+print("Hello Agent")
 
 print("Getting start with KB Agent")
 
