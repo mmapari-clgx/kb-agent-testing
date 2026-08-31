@@ -1,68 +1,47 @@
 # pearl_test.pl
 
-This document provides an overview of the `pearl_test.pl` script, detailing its purpose, execution flow, and behavior.
+This document provides an overview of the `pearl_test.pl` script, a basic interactive Perl utility.
 
 ## Overview
 
-`pearl_test.pl` is a simple, interactive Perl script designed to demonstrate basic input/output operations, string sanitization, conditional logic, and loop structures. It does not define any custom classes, objects, or functions.
+The `pearl_test.pl` script is a simple command-line utility designed to demonstrate basic Perl syntax, including standard input/output (I/O), string sanitization, conditional branching, and basic looping. 
 
-## Execution and Dependencies
-
-The script is executed using a standard Perl interpreter. It enforces strict coding standards and warnings:
-
-```perl
-use strict;
-use warnings;
-```
-
-### Inputs
-* **Standard Input (`STDIN`)**: The script prompts the user to enter their name interactively during execution.
-
-### Outputs
-* **Standard Output (`STDOUT`)**: The script prints greeting messages, prompts, and a sequential count to the console.
+The script enforces strict variable declarations and warnings using:
+* `use strict;`
+* `use warnings;`
 
 ---
 
-## Behavior and Logic Flow
+## Execution Flow
 
-The script executes sequentially from top to bottom through the following steps:
+When executed, the script performs the following steps sequentially:
 
-### 1. Welcome Message
-The script prints an initial greeting to the console:
-```
-Hello, World!
-```
+1. **Welcome Message**
+   Prints a standard greeting to the console:
+   ```text
+   Hello, World!
+   ```
 
-### 2. User Input and Sanitization
-The script prompts the user for their name and reads the input from standard input (`STDIN`). It then uses `chomp` to remove any trailing newline character from the input:
-```perl
-print "Please enter your name: ";
-my $name = <STDIN>;
-chomp($name);
-```
+2. **User Input Collection**
+   Prompts the user with the message `Please enter your name: ` and waits for input from standard input (`STDIN`).
 
-### 3. Conditional Greeting
-The script evaluates the sanitized input:
-* **If the input is empty** (`$name eq ""`), it prints:
-  ```
-  Hello, stranger!
-  ```
-* **If the input is not empty**, it prints a personalized greeting:
-  ```
-  Nice to meet you, <name>!
-  ```
+3. **Input Sanitization**
+   Applies the `chomp` function to the input variable `$name` to remove any trailing newline character.
 
-### 4. Loop Demonstration
-Finally, the script prints a header and executes a `foreach` loop to count from 1 to 3, printing each iteration:
-```
-Counting to 3:
-Count: 1
-Count: 2
-Count: 3
-```
+4. **Conditional Greeting**
+   * **If the input is empty** (the user pressed Enter without typing a name):
+     Prints `Hello, stranger!`.
+   * **If the input is not empty**:
+     Prints `Nice to meet you, <name>!` (where `<name>` is the sanitized user input).
+
+5. **Counting Loop**
+   Prints a header `Counting to 3:` and executes a `foreach` loop iterating through the range `1..3`. For each iteration, it prints:
+   ```text
+   Count: <index>
+   ```
 
 ---
 
 ## Functions and Procedures
 
-There are no user-defined functions, subroutines, or procedures in this script. All logic is executed inline.
+This script does not define any custom packages, classes, functions, or subroutines. All logic is executed sequentially in the main body of the script.
