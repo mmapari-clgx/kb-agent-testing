@@ -1,51 +1,46 @@
 # python_test.py
 
-This script generates a multi-language programming reference guide in both HTML and PDF formats. It embeds code snippets for Python, SQL, Perl, and Shell Scripting into a styled HTML template and compiles it into a PDF document using the `weasyprint` library.
+This script generates a styled HTML reference document and compiles it into a PDF file using the `weasyprint` library. The generated document serves as a multi-language scripting reference guide containing code snippets for Python, SQL, Perl, and Shell Scripting.
 
 ## Overview
 
-The script performs the following tasks:
-1. Prints initialization messages to the console.
-2. Defines a comprehensive HTML document containing CSS styling and code snippets for four different languages.
-3. Writes the HTML content to a local file.
-4. Compiles the HTML file into a styled PDF document.
+The script runs sequentially to:
+1. Print initialization messages to the console.
+2. Define a structured HTML document containing CSS styles and syntax-highlighted code blocks.
+3. Write the HTML content to a local file.
+4. Convert the HTML file into a PDF document.
 
 ## Dependencies
 
-The script requires the following external library:
-* **WeasyPrint**: Used to render the HTML file into a PDF document (`from weasyprint import HTML`).
+The script relies on the following libraries:
+* `os` (imported but not explicitly used in the generation logic)
+* `weasyprint` (specifically the `HTML` class for PDF compilation)
 
-## Execution Flow and Behavior
+## Generated Files
 
-1. **Console Initialization**:
-   The script prints the following startup messages:
+The execution of this script produces two files in the working directory:
+* **`multi_language_samples.html`**: The raw HTML document containing the styled code snippets.
+* **`multi_language_samples.pdf`**: The compiled PDF version of the HTML document, formatted for A4 size.
+
+## Document Content & Structure
+
+The generated reference guide contains the following sections:
+
+1. **Python Sample (`.py`)**: A sample script demonstrating file I/O, error handling, and JSON parsing.
+2. **SQL Sample (`.sql`)**: A relational database query demonstrating aggregations, window functions (`SUM() OVER`, `RANK() OVER`), and filtering.
+3. **Perl Sample (`.pl`)**: A text processing script using regular expressions to parse IP addresses from a log file.
+4. **Shell Script Sample (`.sh`)**: A Bash script demonstrating automated backup creation, directory management, and file rotation.
+
+## Execution Flow
+
+1. **Console Output**: Prints startup messages:
    ```text
-   Hello Agent
+   Welcome to KB Agent
    Getting start with KB Agent
    ```
-
-2. **HTML Generation**:
-   The script defines a string variable `html_content` containing a complete HTML5 document. The document includes:
-   * **CSS Styling**: Custom print styles (`@page` size A4, margins, page numbering), color schemes, and syntax highlighting classes (`.keyword`, `.string`, `.comment`, `.function`, `.number`).
-   * **Python Sample**: A snippet demonstrating JSON parsing and file I/O error handling.
-   * **SQL Sample**: A query demonstrating window functions (`SUM() OVER`, `RANK() OVER`) and filtering.
-   * **Perl Sample**: A script demonstrating regular expression matching for IPv4 addresses in log files.
-   * **Shell Script Sample**: A Bash script demonstrating directory creation, archiving (`tar`), and file rotation (`find ... -delete`).
-
-3. **File Writing**:
-   The HTML content is written to a file named `multi_language_samples.html` using UTF-8 encoding.
-
-4. **PDF Compilation**:
-   The script instantiates `weasyprint.HTML` with the generated HTML file and calls `.write_pdf()` to output `multi_language_samples.pdf`.
-
-5. **Completion Message**:
-   Upon successful PDF generation, the script prints:
+2. **HTML Generation**: Writes the hardcoded HTML string (`html_content`) to `multi_language_samples.html` using UTF-8 encoding.
+3. **PDF Compilation**: Instantiates `weasyprint.HTML` with the generated HTML file and calls `.write_pdf()` to output `multi_language_samples.pdf`.
+4. **Completion Output**: Prints a success message upon successful PDF generation:
    ```text
    PDF generated successfully.
    ```
-
-## Output Files
-
-The script produces two output files in the working directory:
-* **`multi_language_samples.html`**: The raw HTML document containing the styled code snippets.
-* **`multi_language_samples.pdf`**: The compiled, print-ready PDF version of the reference guide.

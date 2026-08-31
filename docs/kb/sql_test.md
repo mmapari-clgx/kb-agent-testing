@@ -1,26 +1,26 @@
 # sql_test.sql
 
-This SQL script initializes and configures the relational database schema for a bookstore application (`BookstoreDB`). It handles database creation, table teardown and setup (with constraints and foreign key relationships), seeds sample data, and provides verification queries.
+This SQL script initializes and configures the relational database schema for a bookstore application (`BookstoreDB`). It handles database creation, table provisioning with strict integrity constraints, sample data seeding, and basic reporting queries.
 
 ---
 
-## Database Initialization & Teardown
+## Database Initialization and Cleanup
 
-The script performs the following setup steps:
+The script executes the following setup steps:
 1. **Database Creation**: Creates the database `BookstoreDB` if it does not already exist and sets it as the active database context.
-2. **Table Teardown**: Drops existing tables in reverse order of their dependency hierarchy to avoid foreign key constraint violations:
-   1. `OrderItems` (Depends on `Orders` and `Books`)
-   2. `Orders` (Depends on `Customers`)
-   3. `Books`
-   4. `Customers`
+2. **Cleanup**: Drops existing tables in reverse order of their dependency hierarchy to prevent foreign key constraint violations:
+   * `OrderItems`
+   * `Orders`
+   * `Books`
+   * `Customers`
 
 ---
 
-## Database Schema
+## Schema Definition
 
-The schema consists of four tables: `Customers`, `Books`, `Orders`, and `OrderItems`.
+The database consists of four tables: `Customers`, `Books`, `Orders`, and `OrderItems`.
 
-### 1. `Customers` Table
+### 1. Customers Table
 Stores customer profile information.
 
 | Column Name | Data Type | Constraints | Description |
@@ -29,9 +29,9 @@ Stores customer profile information.
 | `FirstName` | `VARCHAR(50)` | `NOT NULL` | Customer's first name. |
 | `LastName` | `VARCHAR(50)` | `NOT NULL` | Customer's last name. |
 | `Email` | `VARCHAR(100)` | `UNIQUE`, `NOT NULL` | Unique email address. |
-| `JoinedDate` | `DATE` | `DEFAULT (CURRENT_DATE)` | Date the customer joined. Defaults to the current date. |
+| `JoinedDate` | `DATE` | `DEFAULT (CURRENT_DATE)` | Date the customer joined. Defaults to the current system date. |
 
-### 2. `Books` Table
+### 2. Books Table
 Stores inventory details for books.
 
 | Column Name | Data Type | Constraints | Description |
@@ -42,8 +42,8 @@ Stores inventory details for books.
 | `Price` | `DECIMAL(10, 2)` | `NOT NULL`, `CHECK (Price >= 0)` | Price of the book. Must be non-negative. |
 | `StockQuantity`| `INT` | `NOT NULL`, `DEFAULT 0` | Available stock. Defaults to 0. |
 
-### 3. `Orders` Table
-Tracks customer orders.
+### 3. Orders Table
+Tracks high-level order transactions.
 
 | Column Name | Data Type | Constraints | Description |
 | :--- | :--- | :--- | :--- |
@@ -52,8 +52,8 @@ Tracks customer orders.
 | `OrderDate` | `DATETIME` | `DEFAULT CURRENT_TIMESTAMP` | Timestamp of the order. Defaults to current system time. |
 | `TotalAmount` | `DECIMAL(10, 2)`| `NOT NULL` | Total cost of the order. |
 
-### 4. `OrderItems` Table
-A junction table representing individual line items within an order.
+### 4. OrderItems Table
+Tracks line items associated with each order.
 
 | Column Name | Data Type | Constraints | Description |
 | :--- | :--- | :--- | :--- |
@@ -61,7 +61,7 @@ A junction table representing individual line items within an order.
 | `OrderID` | `INT` | `NOT NULL`, `FOREIGN KEY` | References `Orders(OrderID)` with `ON DELETE CASCADE`. |
 | `BookID` | `INT` | `NOT NULL`, `FOREIGN KEY` | References `Books(BookID)`. |
 | `Quantity` | `INT` | `NOT NULL`, `CHECK (Quantity > 0)` | Number of copies ordered. Must be greater than 0. |
-| `Subtotal` | `DECIMAL(10, 2)`| `NOT NULL` | Total cost for this line item. |
+| `Subtotal` | `DECIMAL(10, 2)`| `NOT NULL` | Subtotal for the line item (Quantity * Price). |
 
 ---
 
@@ -79,23 +79,23 @@ The script populates the database with initial sample records:
   * *AI Application Programmer* by Mayur ($50.00, Stock: 8)
   * *Designing Data-Intensive Applications* by Martin Kleppmann ($50.00, Stock: 5)
 * **Orders & Order Items**:
-  * Simulates an order for Alice (`CustomerID: 1`) purchasing 1 copy of *Clean Code* (`BookID: 2`) for a total of $37.50.
+  * Simulates an order for Alice (`CustomerID: 1`) purchasing 1 copy of *Clean Code* (`BookID: 2`) for a total of `$37.50`.
 
 ---
 
 ## Verification Queries
 
-The script includes two built-in queries to verify data integrity and schema relationships:
+The script includes two built-in queries to verify data insertion and relationships:
 
 ### 1. View Available Books
-Retrieves basic catalog information for all books in stock.
+Retrieves the catalog of books with their author, price, and stock levels.
 ```sql
 SELECT Title, Author, Price, StockQuantity 
 FROM Books;
 ```
 
-### 2. Retrieve Order Details
-Performs an `INNER JOIN` between `Orders` and `Customers` to generate a summary of orders, concatenating the customer's first and last names.
+### 2. Find Order Details with Customer Names
+Performs an `INNER JOIN` between `Orders` and `Customers` to construct a consolidated order list, concatenating the customer's first and last name.
 ```sql
 SELECT 
     o.OrderID,

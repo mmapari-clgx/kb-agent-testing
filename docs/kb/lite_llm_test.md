@@ -1,15 +1,11 @@
 # lite_llm_test.py
 
-This file contains a simple utility script that prints a greeting message, defines a function to generate a Fibonacci sequence, and provides an interactive command-line interface (CLI) to run the generator.
+This file is a utility script that provides a function to generate the Fibonacci sequence and includes an interactive command-line interface (CLI) for testing the generator.
 
-## Overview
-
-Upon loading or execution, the script immediately prints a greeting message:
+Upon initial import or execution, the script prints a greeting message:
 ```text
 hi aruna im agent
 ```
-
-It contains a single utility function, `fibonacci`, and an execution block that allows users to input a number of terms and view the generated sequence.
 
 ---
 
@@ -23,33 +19,23 @@ Generates the first `n` terms of the Fibonacci sequence.
 * **`n`** (`int`): The number of terms to generate. Must be a non-negative integer.
 
 #### Returns
-* **`list`**: A list of integers containing the generated Fibonacci sequence.
+* **`list`**: A list of integers representing the Fibonacci sequence up to `n` terms.
 
 #### Exceptions Raised
-* **`ValueError`**: Raised if `n` is not an instance of `int` or is less than `0` (with the message `"Number of terms must be a non-negative integer."`).
+* **`ValueError`**: Raised if `n` is not an instance of `int` or if `n` is less than `0`. The error message is:
+  `"Number of terms must be a non-negative integer."`
 
-#### Behavior and Logic
-1. Validates that the input `n` is a non-negative integer.
-2. Initializes an empty list `sequence` and the first two Fibonacci numbers (`a = 0`, `b = 1`).
-3. Iterates `n` times, appending the current value of `a` to the sequence and updating the values such that `a` becomes `b` and `b` becomes `a + b`.
-4. Returns the populated `sequence` list.
+#### Behavior and Implementation
+The function initializes the sequence with an empty list and sets the starting values of the sequence (`a = 0`, `b = 1`). It then iterates `n` times, appending the current value of `a` to the sequence and updating the values to the next terms in the sequence (`a, b = b, a + b`).
 
 ---
 
-## Execution Flow (`__main__`)
+## Execution Flow (CLI Usage)
 
-When the script is executed directly, it runs an interactive loop within a `try-except` block:
+When the script is executed directly (`python lite_llm_test.py`), it runs an interactive loop in the terminal:
 
-1. **User Input**: Prompts the user to enter the number of Fibonacci terms via standard input:
-   ```text
-   Enter the number of Fibonacci terms: 
-   ```
-2. **Generation**: Converts the input to an integer and calls `fibonacci(n_terms)`.
-3. **Output**: Prints the resulting sequence:
-   ```text
-   Fibonacci sequence (<n_terms> terms): <fib_sequence>
-   ```
-4. **Error Handling**: If a `ValueError` is raised (either from invalid integer conversion or from the `fibonacci` function validation), it catches the exception and prints:
-   ```text
-   Error: <error_message>
-   ```
+1. **User Input**: Prompts the user with `"Enter the number of Fibonacci terms: "` and attempts to cast the input to an integer.
+2. **Generation**: Calls the `fibonacci` function with the provided integer.
+3. **Output**: 
+   * On success, prints the generated sequence: `Fibonacci sequence (<n_terms> terms): <sequence>`
+   * On failure (e.g., if the input is not an integer or is a negative integer), catches the `ValueError` and prints: `Error: <error_message>`
