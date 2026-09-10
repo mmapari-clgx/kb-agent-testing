@@ -1,4 +1,4 @@
-print('This is a Knowledge Base Agent')
+print('Hello World')
 
 # Fibonacci sequence generator in Python
 
